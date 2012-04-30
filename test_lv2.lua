@@ -18,4 +18,11 @@ for i,v in pairs(lv2) do
 end
 
 -- let's find a plugin with a partial URI - metatables make it possible
-print(lv2.bandpass_iir.name)
+-- print(lv2.bandpass_iir.name)
+
+-- create a synth spec
+s = {}
+s.osc = lv2.sinCos
+s.filter = lv2["lpf/mono"]
+s.wires = {}
+s.wires[s.filter.ports.in] = s.osc.ports.sine

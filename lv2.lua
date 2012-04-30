@@ -10,12 +10,6 @@ local as_string =
 local setup_ports = 
 	function(p, plugin)
 		local ports = {}
-		local mt = {}
-		
-		-- a metatable to make port lookup easier
-		mt.__index = 
-			function(key)
-			end
 
 		for index = 0, llilv.lilv_plugin_get_num_ports(plugin) - 1 , 1 do
 			-- print ("index: " .. index)
@@ -30,7 +24,7 @@ local setup_ports =
 
 			local classes = llilv.lilv_port_get_classes(plugin, port)
 			local classes_iter = llilv.lilv_nodes_begin(classes)
-			index = 1
+			local index = 1
 			while false == llilv.lilv_nodes_is_end(classes, classes_iter) do
 				-- print ("class: " .. llilv.lilv_node_as_uri(llilv.lilv_nodes_get(classes, classes_iter)))
 				ports[symbol].classes[index] = llilv.lilv_node_as_uri(llilv.lilv_nodes_get(classes, classes_iter))
