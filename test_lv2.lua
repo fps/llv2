@@ -6,9 +6,14 @@ for i,v in pairs(lv2) do
 	print (i) 
 	print ("  name: " .. v.name)
 	print ("  class: " .. v.class) 
-	print ("  num ports: " .. # v.ports)
-	for port = 0, # v.ports - 1, 1 do
-		print ("    name: " .. v.ports[port + 1].name)
+
+	for j,w in pairs(v.ports) do
+		print ("    " .. j .. ":") 
+		print ("      " .. " name: " .. w.name)
+
+		for k,x in ipairs(w.classes) do
+			print ("        " .. " class " .. k .. ": "  .. x)
+		end
 	end
 end
 
