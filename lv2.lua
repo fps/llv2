@@ -76,10 +76,11 @@ mt.__index =
 		for i,v in pairs(lv2) do
 			local match = string.find(i, key)
 			if nil ~= match then
-				print ("match: " .. i)
+				-- print ("match: " .. i)
 				return lv2[i]
 			end
 		end
+		print("warning, no plugin found for key: " .. key)
 		return nil
 	end
 setmetatable(lv2, mt)
