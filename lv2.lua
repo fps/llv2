@@ -9,8 +9,8 @@ local iter = llilv.lilv_plugins_begin(plugins)
 _G.lv2 = {}
 
 local as_string = function(node)
-	return llilv.lilv_node_as_string(node)
-end
+							return llilv.lilv_node_as_string(node)
+						end
 
 while false == llilv.lilv_plugins_is_end(plugins, iter) do
 	plugin = llilv.lilv_plugins_get(plugins, iter)
@@ -27,7 +27,7 @@ while false == llilv.lilv_plugins_is_end(plugins, iter) do
 		local port = llilv.lilv_plugin_get_port_by_index(plugin, index)
 		lv2[uri].ports[index + 1].name = llilv.lilv_node_as_string(llilv.lilv_port_get_name(plugin, port))
 		lv2[uri].ports[index + 1].classes = {}
-				
+		
 	end
 
 	iter = llilv.lilv_plugins_next(plugins, iter)
@@ -35,14 +35,14 @@ end
 
 local mt = {}
 mt.__index = function(table, key)
-	-- return the first match
-	for i,v in pairs(lv2) do
-		local match = string.find(i, key)
-		if nil ~= match then
-			print ("match: " .. i)
-			return lv2[i]
-		end
-	end
-	return nil
-end
+					 -- return the first match
+					 for i,v in pairs(lv2) do
+						 local match = string.find(i, key)
+						 if nil ~= match then
+							 print ("match: " .. i)
+							 return lv2[i]
+						 end
+					 end
+					 return nil
+				 end
 setmetatable(lv2, mt)
