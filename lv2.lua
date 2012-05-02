@@ -1,4 +1,23 @@
 require "llilv"
+local deepcopy = 
+	function (object)
+		-- print("deepcopy: " .. object.uri)
+		local lookup_table = {}
+		local function _copy(object)
+			if type(object) ~= "table" then
+            return object
+			elseif lookup_table[object] then
+            return lookup_table[object]
+			end
+			local new_table = {}
+			lookup_table[object] = new_table
+			for index, value in pairs(object) do
+            new_table[_copy(index)] = _copy(value)
+			end
+			return setmetatable(new_table, getmetatable(object))
+		end
+		return _copy(object)
+	end
 
 local as_string = 
 	function(node)
@@ -18,10 +37,15 @@ local setup_ports =
 
 			ports[symbol] = {}
 			ports[symbol].port = port
+			ports[symbol].symbol = symbol
+			ports[symbol].plugin = p
+			ports[symbol].wires = {}
 
 			ports[symbol].name = as_string(llilv.lilv_port_get_name(plugin, port))
 			ports[symbol].classes = {}
 
+			local mt = { __concat = function(left, right) left.wires = right end }
+			setmetatable(ports[symbol], mt)
 			local classes = llilv.lilv_port_get_classes(plugin, port)
 			local classes_iter = llilv.lilv_nodes_begin(classes)
 			local index = 1
@@ -47,12 +71,13 @@ local setup_plugin =
 		p.class = as_string(llilv.lilv_plugin_class_get_label(llilv.lilv_plugin_get_class(plugin)))
 		setup_ports(p, plugin)
 
-		_G.lv2[p.uri] = p
+		_G.lv2.plugins[p.uri] = p
 	end
 
 local setup_plugins = 
 	function() 
 		_G.lv2 = {}
+		_G.lv2.plugins = {}
 
 		local world = llilv.lilv_world_new()
 		llilv.lilv_world_load_all(world)
@@ -73,11 +98,10 @@ local mt = {}
 mt.__index = 
 	function(table, key)
 		-- return the first URI match
-		for i,v in pairs(lv2) do
+		for i,v in pairs(lv2.plugins) do
 			local match = string.find(i, key)
 			if nil ~= match then
-				-- print ("match: " .. i)
-				return lv2[i]
+				return deepcopy(lv2.plugins[i])
 			end
 		end
 		print("warning, no plugin found for key: " .. key)
