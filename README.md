@@ -9,6 +9,6 @@ Run make and hope for the best. If it fails, fix the makefile
 
 # What more?
 
-Run lua test_lua.lv2
+Run lua test_lv2.lua
 
 
