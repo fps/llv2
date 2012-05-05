@@ -42,7 +42,7 @@ local run =
 					-- do we have at least one wire?
 					if 0 ~= # o then
 						m = o[1]
-						if nil ~= string.find(m.classes, "http://lv2plug.in/ns/lv2core#OutputPort") then
+						if nil ~= string.find(m.classes, "http://lv2plug.in/ns/lv2core#InputPort") then
 							-- output
 							if nil ~= string.find(m.classes, "http://lv2plug.in/ns/lv2core#AudioPort") then
 								os.execute(ingen_cmd .. " put /ingen_synth_" .. index .. " 'a lv2:InputPort ; a lv2:AudioPort'")
@@ -54,7 +54,7 @@ local run =
 							end
 
 							print("classes: " .. m.classes)
-							os.execute(ingen_cmd .. " connect " .. " /" .. m.plugin.key_for_port_lookup .. "/" .. m.symbol  .. " /ingen_synth_" .. index )
+							os.execute(ingen_cmd .. " connect "  .. " /ingen_synth_" .. index .. " /" .. m.plugin.key_for_port_lookup .. "/" .. m.symbol)
 							sleep(0.1)
 						else
 							-- input
@@ -68,7 +68,7 @@ local run =
 							end
 
 							print("classes: " .. m.classes)
-							os.execute(ingen_cmd .. " connect "  .. " /ingen_synth_" .. index .. " /" .. m.plugin.key_for_port_lookup .. "/" .. m.symbol)
+							os.execute(ingen_cmd .. " connect " .. " /" .. m.plugin.key_for_port_lookup .. "/" .. m.symbol  .. " /ingen_synth_" .. index )
 							sleep(0.1)
 						end
 
