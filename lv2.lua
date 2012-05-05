@@ -42,7 +42,7 @@ local setup_ports =
 			ports[symbol].wires = {}
 
 			ports[symbol].name = as_string(llilv.lilv_port_get_name(plugin, port))
-			ports[symbol].classes = {}
+			ports[symbol].classes = ""
 
 			local mt = { __concat = function(left, right) left.wires = right end }
 			setmetatable(ports[symbol], mt)
@@ -51,7 +51,7 @@ local setup_ports =
 			local index = 1
 			while false == llilv.lilv_nodes_is_end(classes, classes_iter) do
 				-- print ("class: " .. llilv.lilv_node_as_uri(llilv.lilv_nodes_get(classes, classes_iter)))
-				ports[symbol].classes[index] = llilv.lilv_node_as_uri(llilv.lilv_nodes_get(classes, classes_iter))
+				ports[symbol].classes = ports[symbol].classes .. " " .. llilv.lilv_node_as_uri(llilv.lilv_nodes_get(classes, classes_iter))
 				index = index + 1
 				classes_iter = llilv.lilv_nodes_next(classes, classes_iter)
 			end

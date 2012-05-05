@@ -11,8 +11,6 @@ for i,v in pairs(lv2.plugins) do
 		print ("    " .. j .. ":") 
 		print ("      " .. " name: " .. w.name)
 
-		for k,x in ipairs(w.classes) do
-			print ("        " .. " class " .. k .. ": "  .. x)
-		end
+		print ("        " .. w.classes)
 	end
 end
