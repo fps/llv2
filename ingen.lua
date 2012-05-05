@@ -13,7 +13,7 @@ local ingen_cmd = "ingenish"
 local run = 
 	function(s)
 		os.execute("rm /tmp/ingen.sock")
-		local p = { "ingen", "-eg", "-n", "ingen"}
+		local p = { "ingen", "-e", "-n", "ingen"}
 		-- p.stdout = subprocess.PIPE
 		p.stderr = subprocess.stdout
 		local engine = subprocess.popen(p)

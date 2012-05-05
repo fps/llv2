@@ -3,10 +3,9 @@ require "lv2"
 
 s = ingen("foo")
 
-s.osc = lv2["sinCos"]
-s.flanger = lv2["djFlanger"]
+s.osc = lv2["blip/sawtooth"]
 
-s.wires["system:playback_1"] = { s.osc.ports.sine }
-s.wires["system:playback_2"] = { s.osc.ports.cosine }
-s.wires[s.flanger.ports.input] = s.osc.ports.sine
+s.wires["system:playback_1"] = { s.osc.ports.port1 }
+s.wires["system:playback_2"] = { s.osc.ports.port1 }
+
 s:run()
